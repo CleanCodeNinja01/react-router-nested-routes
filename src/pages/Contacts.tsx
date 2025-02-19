@@ -35,42 +35,6 @@ export const createContactAction: ActionFunction = async ({ request }) => {
   return contact;
 };
 
-export const formActions: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-
-  const action = formData.get("actionType")?.toString();
-  const contactId = formData.get("contactId")?.toString();
-
-  if (!contactId) {
-    throw new Error("Contact ID is required.");
-  }
-
-  let contacts = await getContacts();
-
-  if (action == "duplicate") {
-    const contactToDuplicate = contacts.find((contact) => {
-      return contact.login.uuid === contactId;
-    });
-
-    if (contactToDuplicate) {
-      const newContact = {
-        ...contactToDuplicate,
-        login: { uuid: String(Date.now()) }, // Assign a new unique ID
-      };
-
-      // contacts.push(newContact);
-      await createContact(newContact)
-    }
-  } else if (action == "delete") {
-    // contacts = contacts.filter((contact) => contact.login.uuid !== contactId);
-    await deleteContact(contactId)
-  }
-
-  // return null;
-  return redirect("/contacts");
-  // useRevalidator().revalidate;
-};
-
 const ContactsPage = () => {
   const { contacts } = useLoaderData() as Awaited<
     ReturnType<typeof contactsLoader>
@@ -177,8 +141,8 @@ const ContactsPage = () => {
                       </Link>
                     </td>
                     <th>
-                      <Form method="POST" className="flex gap-2" action="./">
-                        <input
+                      <Form method="POST" className="flex gap-2" action={`/contacts/${contact.login.uuid}/destroy`}>
+                        {/* <input
                           type="hidden"
                           name="contactId"
                           value={contact.login.uuid}
@@ -191,12 +155,12 @@ const ContactsPage = () => {
                           // onClick={(event) => {}}
                         >
                           duplicate
-                        </button>
+                        </button> */}
                         <button
                           className="btn btn-outline btn-error btn-xs"
-                          type="submit"
-                          name="actionType"
-                          value="delete"
+                          // type="submit"
+                          // name="actionType"
+                          // value="delete"
                           onClick={(event) => {
                             const result = confirm(
                               "Confirm deletion of this contact."
