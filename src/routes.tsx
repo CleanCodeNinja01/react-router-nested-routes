@@ -11,7 +11,6 @@ import { ContactNotFoundPage } from "./pages/ContactNotFound";
 import ContactsPage, {
   contactsLoader,
   createContactAction,
-  formActions,
 } from "./pages/Contacts";
 import { destroyContactAction } from "./pages/ContactDestroy";
 import About from "./pages/About/About";
@@ -32,7 +31,7 @@ const appRouter = createBrowserRouter(
 
       <Route
         path="contacts"
-        action={formActions}
+        action={createContactAction}
         loader={contactsLoader}
         element={<ContactsPage />}
       />
