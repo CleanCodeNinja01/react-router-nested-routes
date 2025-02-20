@@ -35,7 +35,7 @@ export const createContactAction: ActionFunction = async ({ request }) => {
   return contact;
 };
 
-export const formActions: ActionFunction = async ({ request }) => {
+export const formCreateActions: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
   const action = formData.get("actionType")?.toString();
@@ -59,11 +59,11 @@ export const formActions: ActionFunction = async ({ request }) => {
       };
 
       // contacts.push(newContact);
-      await createContact(newContact)
+      await createContact(newContact);
     }
   } else if (action == "delete") {
     // contacts = contacts.filter((contact) => contact.login.uuid !== contactId);
-    await deleteContact(contactId)
+    await deleteContact(contactId);
   }
 
   // return null;
@@ -183,6 +183,21 @@ const ContactsPage = () => {
                           name="contactId"
                           value={contact.login.uuid}
                         />
+                        {/* <button
+                          className="btn btn-outline btn-success btn-xs"
+                          // type="submit"
+                          name="actionType"
+                          value="edit"
+                          // onClick={(event) => {}}
+                        >
+                          edit
+                        </button>                         */}
+                        <Link
+                          to={`/contacts/${contact.login.uuid}/edit`}
+                          className="btn btn-outline btn-success btn-xs"
+                        >
+                          edit
+                        </Link>
                         <button
                           className="btn btn-outline btn-primary btn-xs"
                           type="submit"
