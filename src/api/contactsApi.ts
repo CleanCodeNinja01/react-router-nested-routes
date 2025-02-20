@@ -25,6 +25,19 @@ export const createContact = async (contact: Partial<Contact>) => {
   return { contact: contactResp.contact };
 };
 
+export const updateContact = async (contactId: string, contact: Partial<Contact>) => {
+  const resp = await fetch(`http://localhost:3000/contacts/${contactId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  });
+  const contactResp = await resp.json();
+  return { contact: contactResp.contact };
+};
+
+
 export const deleteContact = async (contactId: string) => {
   const resp = await fetch(`http://localhost:3000/contacts/${contactId}`, {
     method: "DELETE",
